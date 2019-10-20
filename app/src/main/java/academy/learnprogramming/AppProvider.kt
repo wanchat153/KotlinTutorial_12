@@ -11,7 +11,7 @@ import android.util.Log
 
 private const val TAG = "AppProvider"
 
-const val CONTENT_AUTHORITY = "learnprogramming.academy.tasktimer.provider"
+const val CONTENT_AUTHORITY = "academy.learnprogramming..provider"
 
 private const val TASKS = 100
 private const val TASKS_ID = 101
@@ -24,6 +24,7 @@ private const val TASK_DURATIONS_ID = 401
 
 val CONTENT_AUTHORITY_URI: Uri = Uri.parse("content://$CONTENT_AUTHORITY")
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AppProvider: ContentProvider() {
 
     private val uriMatcher by lazy { buildUriMatcher() }
@@ -32,11 +33,11 @@ class AppProvider: ContentProvider() {
         Log.d(TAG, "buildUriMatcher starts")
         val matcher = UriMatcher(UriMatcher.NO_MATCH)
 
-        matcher.addURI(CONTENT_AUTHORITY, TasksContract.TABLE_NAME, TASKS);
+        matcher.addURI(CONTENT_AUTHORITY, TasksContract.TABLE_NAME, TASKS)
 
         matcher.addURI(CONTENT_AUTHORITY, "${TasksContract.TABLE_NAME}/#", TASKS_ID)
 
-        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME, TIMINGS);
+        matcher.addURI(CONTENT_AUTHORITY, TimingsContract.TABLE_NAME, TIMINGS)
         matcher.addURI(CONTENT_AUTHORITY, "${TimingsContract.TABLE_NAME}/#", TIMINGS_ID)
 //        matcher.addURI(CONTENT_AUTHORITY, DurationsContract.TABLE_NAME, TASK_DURATIONS);
 //        matcher.addURI(CONTENT_AUTHORITY, "${DurationsContract.TABLE_NAME}/#", TASK_DURATIONS_ID)
@@ -251,7 +252,7 @@ class AppProvider: ContentProvider() {
             else -> throw IllegalArgumentException("Unknown uri: $uri")
         }
 
-        Log.d(TAG, "Exiting update, returning $count")
+        Log.d(TAG, "Exiting delete, returning $count")
         return count
     }
 }
