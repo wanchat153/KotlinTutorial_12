@@ -10,7 +10,7 @@ import android.util.Log
 
 private const val TAG = "AppProvider"
 
-private val CONTENT_AUTHORITY = "learnprogramming.academy.tasktimer.provider"
+const val CONTENT_AUTHORITY = "learnprogramming.academy.tasktimer.provider"
 
 private const val TASKS = 100
 private const val TASKS_ID = 101
