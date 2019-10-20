@@ -25,10 +25,22 @@ internal class AppDatabase private constructor(context: Context): SQLiteOpenHelp
             ${TasksContract.Columns.TASK_DESCRIPTION} TEXT,
             ${TasksContract.Columns.TASK_SORT_ORDER} INTEGER);""".replaceIndent(" ")
         Log.d(TAG, sSQL)
-        db?.execSQL(sSQL)
+        db.execSQL(sSQL)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    companion object : SingletonHolder<AppDatabase, Context>(::AppDatabase)
+//    companion object {
+//
+//        @Volatile
+//        private var instance: AppDatabase? = null
+//
+//        fun getInstance(context: Context): AppDatabase =
+//                instance ?: synchronized(this) {
+//                    instance ?: AppDatabase(context).also { instance = it}
+//                }
+//    }
 }
