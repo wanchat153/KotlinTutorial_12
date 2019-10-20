@@ -1,5 +1,6 @@
 package academy.learnprogramming
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -45,6 +46,23 @@ class AddEditFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_edit, container, false)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: called")
+        if (savedInstanceState == null) {
+            val task = task
+            if (task != null) {
+                Log.d(TAG, "onViewCreated: Task details found, editing task ${task.id}")
+                addedit_name.setText(task.name)
+                addedit_description.setText(task.description)
+                addedit_sortorder.setText(Integer.toString(task.sortOrder))
+            } else {
+                // No task, so we must be adding a new task, and editing an existing one
+                Log.d(TAG, "onViewCreated: No arguments, adding new record")
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -107,10 +125,6 @@ class AddEditFragment : Fragment() {
                     putParcelable(ARG_TASK, task)
                 }
             }
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated: called")
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
