@@ -1,5 +1,6 @@
 package academy.learnprogramming
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             sortColumn)
         Log.d(TAG, "*************************")
         cursor.use {
-            while(it.moveToNext()) {
+            while(it!!.moveToNext()) {
                 // Cycle through all records
                 with(cursor) {
                     //val id = getLong(0)
