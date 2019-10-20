@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), AddEditFragment.OnSaveClicked {
     private var mTwoPane = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreated: finished")
+        Log.d(TAG, "onCreate: starts")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), AddEditFragment.OnSaveClicked {
         mTwoPane = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         Log.d(TAG, "onCreate: twoPane is $mTwoPane")
 
-        var fragment = supportFragmentManager.findFragmentById(R.id.task_details_container)
+        val fragment = supportFragmentManager.findFragmentById(R.id.task_details_container)
         if(fragment != null) {
             // There was an existing fragment to edit a task, make sure the panes are set correctly
             showEditPane()
@@ -58,11 +58,13 @@ class MainActivity : AppCompatActivity(), AddEditFragment.OnSaveClicked {
         // and show the left hand pane
         mainFragment.view?.visibility = View.VISIBLE
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
     }
 
     override fun onSaveClicked(){
         Log.d(TAG, "onSaveClicked: called")
-        var fragment = supportFragmentManager.findFragmentById(R.id.task_details_container)
+        val fragment = supportFragmentManager.findFragmentById(R.id.task_details_container)
         removeEditPane(fragment)
     }
 
@@ -79,6 +81,11 @@ class MainActivity : AppCompatActivity(), AddEditFragment.OnSaveClicked {
         when (item.itemId) {
             R.id.menumain_addTask -> taskEditRequest(null)
 //            R.id.menumain_settings -> true
+            android.R.id.home -> {
+                Log.d(TAG, "onOptionsItemSelected: home button pressed")
+                val fragment = supportFragmentManager.findFragmentById(R.id.task_details_container)
+                removeEditPane(fragment)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
