@@ -1,6 +1,7 @@
 package academy.learnprogramming
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -65,6 +66,47 @@ class AddEditFragment : Fragment() {
         }
     }
 
+    private fun saveTask() {
+        val sortOrder = if (addedit_sortorder.text.isNotEmpty()) {
+            Integer.parseInt(addedit_sortorder.text.toString())
+        } else {
+            0
+        }
+
+        val values = ContentValues()
+        val task = task
+
+        if (task != null) {
+            Log.d(TAG, "saveTask: updating existing task")
+            if (addedit_name.text.toString() != task.name) {
+                values.put(TasksContract.Columns.TASK_NAME, addedit_name.text.toString())
+            }
+            if (addedit_description.text.toString() != task.description) {
+                values.put(TasksContract.Columns.TASK_DESCRIPTION,
+                    addedit_description.text.toString())
+            }
+            if (sortOrder != task.sortOrder) {
+                values.put(TasksContract.Columns.TASK_SORT_ORDER, sortOrder)
+            }
+            if (values.size() != 0) {
+                Log.d(TAG, "saveTask: Updating task")
+                activity?.contentResolver?.update(TasksContract.buildUriFromId(task.id),
+                    values, null, null)
+            }
+        } else {
+            Log.d(TAG, "saveTask: adding new task")
+            if (addedit_name.text.isNotEmpty()) {
+                values.put(TasksContract.Columns.TASK_NAME, addedit_name.text.toString())
+                if (addedit_description.text.isNotEmpty()) {
+                    values.put(TasksContract.Columns.TASK_DESCRIPTION,
+                        addedit_description.text.toString())
+                }
+                values.put(TasksContract.Columns.TASK_SORT_ORDER, sortOrder)
+                activity?.contentResolver?.insert(TasksContract.CONTENT_URI, values)
+            }
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.d(TAG, "onActivityCreated: starts")
         super.onActivityCreated(savedInstanceState)
@@ -75,6 +117,7 @@ class AddEditFragment : Fragment() {
         }
 
         addedit_save.setOnClickListener {
+            saveTask()
             listener?.onSaveClicked()
         }
     }
